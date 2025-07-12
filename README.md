@@ -21,11 +21,13 @@ Species were chosen based on environmental reports from the Reston National Stud
 
 Due to size, the dataset is not included in this repo. You can recreate it using this folder structure:
 
+```
 data/
   honeysuckle/
   english_ivy/
   mile_a_minute/
   porcelain_berry/
+```
 
 
 ## Workflow Summary
