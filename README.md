@@ -15,16 +15,17 @@ The model classifies four invasive species prevalent in Northern Virginia:
 Species were chosen based on environmental reports from the Reston National Study Group.
 
 ## Dataset
-- Over 1,000 images collected from sources like:
+- Over 1,000 images collected from sources
   - [iNaturalist.org](https://www.inaturalist.org/)
 - Images were labeled and sorted by species
 
-Due to size, the dataset is not included in this repo. You can recreate it using a folder structure like:
+Due to size, the dataset is not included in this repo. You can recreate it using this folder structure:
+
 data/
-- honeysuckle/
-- english_ivy/
-- mile_a_minute/
-- porcelain_berry/
+  honeysuckle/
+  english_ivy/
+  mile_a_minute/
+  porcelain_berry/
 
 
 ## Workflow Summary
@@ -47,7 +48,7 @@ To improve the model's performance and prepare it for real-world deployment, the
 3. Integrate a native plant dataset (already assembled) to allow for invasive vs non-invasive classification
 4. Separate Honeysuckle variants into their own distinct classes, since the current dataset combines multiple species into one, which may be confusing the model
 5. Add additional invasive species to improve geographical coverage
-6. Evaluate the model on real-world photos to test peformance in the wild
+6. Evaluate the model on real-world photos to test performance in the wild
 7. Develop a mobile app prototype for public use
 
 ## How to Run
