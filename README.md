@@ -69,10 +69,10 @@ This will:
 - Print the predicted class and confidence level
 
 ## How to Run Using Your Own Dataset
+1. Make sure you're using **Python 3.7 to 3.10**. TensorFlow does not support newer versions on Windows.
 1. Clone the repo and open the folder:
    `git clone https://github.com/luke-cla/invasive-species.git && cd invasive-species`
 2. Install required packages: `pip install -r requirements.txt`
-   Make sure you're using **Python 3.7 to 3.10**. TensorFlow does not support newer versions.
 3. Add your dataset using the folder structure shown above under "Dataset"
 4. Run the script to train the model: `python main.py`
 
