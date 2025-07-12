@@ -29,12 +29,12 @@ data/
   porcelain_berry/
 ```
 
-
 ## Workflow Summary
 1. Images are preprocessed using OpenCV - resized, equalized, and normalized
 2. Data is split into training and test sets
 3. A CNN is trained using TensorFlow and Keras
 4. The model outputs accuracy and a confusion matrix
+5. Once trained, the model can be used to classify new plant images using 'predict.py'
 
 Model structure and comments are included in `main.py`.
 
@@ -53,7 +53,26 @@ To improve the model's performance and prepare it for real-world deployment, the
 6. Evaluate the model on real-world photos to test performance in the wild
 7. Develop a mobile app prototype for public use
 
-## How to Run
-1. Install required packages: `pip install -r requirements.txt`
-2. Add your dataset using the format above
-3. Run the script: `python main.py`
+## How to Run Using the Model I Already Trained
+If you want to test the project without training anything:
+
+1. Clone the repo and open the folder:
+   `git clone https://github.com/luke-cla/invasive-species.git && cd invasive-species`
+2. Install the required packages: `pip install -r requirements.txt`
+3. Open `predict.py` and find the line that sets the image path: `image_path = r"sampleimagepathhere.jpg"`
+   Change this line if you want to test a different image (just make sure the image is in the `samples/` folder).
+4. Run the prediction: `python predict.py`
+
+This will:
+- Load the image
+- Use the trained model (`invasive_species_classifier.h5`) to predict the species
+- Print the predicted class and confidence level
+
+## How to Run Using Your Own Dataset
+1. Clone the repo and open the folder:
+   `git clone https://github.com/luke-cla/invasive-species.git && cd invasive-species`
+2. Install required packages: `pip install -r requirements.txt`
+3. Add your dataset using the folder structure shown above under "Dataset"
+4. Run the script to train the model: `python main.py`
+
+This will train a CNN on your dataset and save the model as `invasive_species_classifier.h5`.
