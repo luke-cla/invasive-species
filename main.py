@@ -9,11 +9,12 @@ from tensorflow.keras.models import Sequential, load_model
 from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
 from tensorflow.keras.utils import to_categorical
 
-
+# Set the dataset folder, image size, and number of training epochs
 data_dir = 'data'  
 target_size = (128, 128) 
 epochs = 25
 
+# Preprocess each image: resize, center it, enhance contrast
 def preprocess_image(image, target_size):
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     h, w = image.shape[:2]
@@ -21,20 +22,25 @@ def preprocess_image(image, target_size):
     scale = min(target_w / w, target_h / h)
     new_w, new_h = int(w * scale), int(h * scale)
     resized_image = cv2.resize(image, (new_w, new_h))
+
+    # Center resized image on black canvas to keep aspect ratio
+
     new_image = np.zeros((target_h, target_w, 3), dtype=resized_image.dtype)
     start_x = (target_w - new_w) // 2
     start_y = (target_h - new_h) // 2
     new_image[start_y:start_y+new_h, start_x:start_x+new_w] = resized_image
+
+    # Improve contrast using histogram equalization
     ycrcb = cv2.cvtColor(new_image, cv2.COLOR_RGB2YCrCb)
     ycrcb[:,:,0] = cv2.equalizeHist(ycrcb[:,:,0])
     equalized_image = cv2.cvtColor(ycrcb, cv2.COLOR_YCrCb2RGB)
     return equalized_image
 
-
+# Load images and labels
 images, labels = [], []
-class_names = sorted(os.listdir(data_dir))
+class_names = sorted(os.listdir(data_dir)) # Get folder names as class labels
 
-
+# Loop through each class folder and preprocess images
 for idx, class_name in enumerate(class_names):
     class_dir = os.path.join(data_dir, class_name)
     if not os.path.isdir(class_dir):
@@ -47,14 +53,14 @@ for idx, class_name in enumerate(class_names):
             images.append(processed_image)
             labels.append(idx)
 
-
+# Convert images and labels to numpy arrays and normalize
 images = np.array(images, dtype='float32') / 255.0
 labels = to_categorical(np.array(labels), num_classes=len(class_names))
 
-
+# Split into training and testing sets
 x_train, x_test, y_train, y_test = train_test_split(images, labels, test_size=0.2, random_state=42)
 
-
+# Define the CNN model
 model = Sequential([
     Conv2D(32, (3, 3), activation='relu', input_shape=(target_size[1], target_size[0], 3)),
     MaxPooling2D((2, 2)),
@@ -68,26 +74,25 @@ model = Sequential([
     Dense(len(class_names), activation='softmax')
 ])
 
+# Compile the model
 model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
 
-
-
+# Train the model
 history = model.fit(x_train, y_train, epochs=epochs, validation_data=(x_test, y_test))
 
-
+# Evaluate the model on test data
 loss, accuracy = model.evaluate(x_test, y_test)
 print(f"Test Loss: {loss:.4f}, Test Accuracy: {accuracy:.4f}")
 
-
+# Save the trained model
 model.save('invasive_species_classifier.h5')
 
-
+# Predict on test set
 y_true = np.argmax(y_test, axis=1)
-
 y_pred_probs = model.predict(x_test)
 y_pred = np.argmax(y_pred_probs, axis=1)
 
-
+# Show confusion matrix
 cm = confusion_matrix(y_true, y_pred)
 plt.figure(figsize=(10, 8))
 sns.heatmap(cm, annot=True, fmt='d', cmap='Blues',
@@ -98,7 +103,7 @@ plt.title('Confusion Matrix')
 plt.tight_layout()
 plt.show()
 
-
+# Show classification report
 report = classification_report(y_true, y_pred, target_names=class_names)
 print("\nClassification Report:\n")
 print(report)
