@@ -53,7 +53,7 @@ To improve the model's performance and prepare it for real-world deployment, the
 6. Evaluate the model on real-world photos to test performance in the wild
 7. Develop a mobile app prototype for public use
 
-## How to Run Using the Model I Already Trained
+## How to Run Using the Model that is Already Trained
 If you want to test the project without training anything:
 
 1. Clone the repo and open the folder:
